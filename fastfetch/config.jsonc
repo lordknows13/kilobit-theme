@@ -1,0 +1,71 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "iterm",
+    "source": "~/.config/fastfetch/logo.png",
+    "width": 30,
+    "height": 14,
+    "padding": {
+      "top": 1,
+      "left": 2,
+      "right": 2
+    }
+  },
+  "display": {
+    "separator": " ",
+    "color": {
+      "keys": "1;36",
+      "title": "1;36",
+      "output": "37"
+    }
+  },
+  "modules": [
+    "break",
+    "break",
+    "break",
+    "break",
+    {
+      "type": "title",
+      "key": "      ",
+      "format": "{user-name-colored}"
+    },
+    {
+      "type": "os",
+      "key": "\u001b[34m │\u001b[0m \u001b[1;36mOS\u001b[0m",
+      "format": "\u001b[37m{3} {5}\u001b[0m"
+    },
+    {
+      "type": "uptime",
+      "key": "\u001b[34m │\u001b[0m \u001b[1;36mUptime\u001b[0m",
+      "format": "\u001b[37m{1}d {2}h {3}m\u001b[0m"
+    },
+    {
+      "type": "terminal",
+      "key": "\u001b[34m │\u001b[0m \u001b[1;36mTerminal\u001b[0m",
+      "format": "\u001b[37m{5}\u001b[0m"
+    },
+    {
+      "type": "wm",
+      "key": "\u001b[34m │\u001b[0m \u001b[1;36mWM\u001b[0m",
+      "format": "\u001b[37m{1}\u001b[0m"
+    },
+    {
+      "type": "memory",
+      "key": "\u001b[34m │\u001b[0m \u001b[1;36mMemory\u001b[0m",
+      "format": "\u001b[37m{1} / {2} ({3})\u001b[0m"
+    },
+    {
+      "type": "disk",
+      "key": "\u001b[34m │\u001b[0m \u001b[1;36mDisk\u001b[0m",
+      "folders": "/",
+      "format": "\u001b[37m{1} / {2} ({3})\u001b[0m"
+    },
+    "break",
+    "break",
+    {
+      "type": "colors",
+      "symbol": "circle",
+      "paddingLeft": 4
+    }
+  ]
+}
