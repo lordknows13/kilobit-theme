@@ -106,7 +106,7 @@ local custom_schemes = {
 return {
   color_schemes = custom_schemes,
   color_scheme = active_theme(),
-  window_background_opacity = 0.85,
+  window_background_opacity = 0.92,
   window_close_confirmation = 'NeverPrompt',
 
   initial_cols = 120,
