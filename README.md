@@ -23,6 +23,11 @@ Custom macOS desktop setup -- Ghostty terminal, SketchyBar status bar, Yabai til
 - Float rules for System Settings, Calculator, Karabiner, Activity Monitor, Finder dialogs
 - Auto-reloads SketchyBar on system wake
 
+### Terminal Tools
+- **eza** -- modern `ls` replacement with icons, grid layout, and directories first
+- **zsh-autosuggestions** -- fish-like suggestions as you type based on history
+- **zsh-syntax-highlighting** -- real-time syntax coloring in the terminal
+
 ### Fastfetch
 - Custom config with clean layout and color circles
 - Custom logo image
@@ -46,7 +51,7 @@ Custom macOS desktop setup -- Ghostty terminal, SketchyBar status bar, Yabai til
 ### Dependencies
 
 ```bash
-brew install fastfetch sketchybar yabai jq
+brew install fastfetch sketchybar yabai jq eza zsh-autosuggestions zsh-syntax-highlighting
 brew install --cask font-jetbrains-mono-nerd-font font-fira-code-nerd-font ghostty
 # sketchybar-app-font: https://github.com/kvndrsslr/sketchybar-app-font
 ```
@@ -77,6 +82,11 @@ chmod +x ~/.yabairc
 mkdir -p ~/.config/fastfetch
 cp fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
 cp fastfetch/logo.png ~/.config/fastfetch/logo.png
+
+# Terminal tools -- add to ~/.zshrc
+echo 'alias ls="eza --icons --grid --group-directories-first"' >> ~/.zshrc
+echo 'source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh' >> ~/.zshrc
+echo 'source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' >> ~/.zshrc
 
 # Start services
 sketchybar --reload
