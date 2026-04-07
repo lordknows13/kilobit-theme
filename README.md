@@ -1,65 +1,31 @@
 # Kilobit Theme
 
-Custom terminal setup — WezTerm config with interactive theme switcher, custom Kilobit color scheme, and fastfetch greeting.
+Custom macOS desktop setup -- Ghostty terminal, SketchyBar status bar, Yabai tiling window manager, and Fastfetch system info.
 
 ## What's Included
 
-### WezTerm
-- **Kilobit color scheme** — dark background (`#050508`) with Material-inspired syntax colors
-- **Interactive theme switcher** — `Ctrl+Shift+T` opens an fzf picker with 316 themes and live preview
-- **JetBrainsMono Nerd Font**, opacity, keybindings, and tab config
-- **Fastfetch on launch** — every new tab/window shows system info
+### Ghostty
+- **Kilobit color scheme** -- dark background (`#050508`) with Material-inspired syntax colors
+- **Material Dark Black** custom theme
+- JetBrainsMono Nerd Font, semi-transparent window, hidden titlebar
+- Fastfetch on launch in every new window
+
+### SketchyBar
+- Floating bar with transparent background and rounded bracket sections
+- Apple logo + workspace indicators (1-9) on the left
+- Front app icon display using sketchybar-app-font with 70+ app mappings
+- Clock, date, battery, and volume on the right
+- FiraCode Nerd Font Mono for icons and labels
+
+### Yabai
+- BSP tiling layout with cmd as mouse modifier
+- Integrated with SketchyBar for dynamic top padding
+- Float rules for System Settings, Calculator, Karabiner, Activity Monitor, Finder dialogs
+- Auto-reloads SketchyBar on system wake
 
 ### Fastfetch
 - Custom config with clean layout and color circles
 - Custom logo image
-
-## Installation
-
-### macOS
-
-```bash
-# Install dependencies
-brew install wezterm fastfetch fzf lua
-
-# Install font
-brew install --cask font-jetbrains-mono-nerd-font
-
-# Clone and install
-git clone https://github.com/lordknows13/kilobit-theme.git /tmp/kilobit-theme
-cp /tmp/kilobit-theme/wezterm/.wezterm.lua ~/.wezterm.lua
-mkdir -p ~/.config/wezterm/scripts ~/.config/fastfetch
-cp /tmp/kilobit-theme/wezterm/globals.lua ~/.config/wezterm/globals.lua
-cp /tmp/kilobit-theme/wezterm/theme.lua ~/.config/wezterm/theme.lua
-cp /tmp/kilobit-theme/wezterm/scripts/*.lua ~/.config/wezterm/scripts/
-cp /tmp/kilobit-theme/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
-cp /tmp/kilobit-theme/fastfetch/logo.png ~/.config/fastfetch/logo.png
-rm -rf /tmp/kilobit-theme
-echo "Done. Restart WezTerm."
-```
-
-### Windows (PowerShell)
-
-```powershell
-# Install dependencies (requires scoop or winget)
-winget install wez.wezterm
-scoop install fastfetch fzf lua
-
-# Install font — download JetBrainsMono Nerd Font from:
-# https://github.com/ryanoasis/nerd-fonts/releases/latest
-
-# Clone and install
-git clone https://github.com/lordknows13/kilobit-theme.git $env:TEMP\kilobit-theme
-Copy-Item "$env:TEMP\kilobit-theme\wezterm\.wezterm.lua" "$env:USERPROFILE\.wezterm.lua"
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.config\wezterm\scripts", "$env:USERPROFILE\.config\fastfetch" | Out-Null
-Copy-Item "$env:TEMP\kilobit-theme\wezterm\globals.lua" "$env:USERPROFILE\.config\wezterm\"
-Copy-Item "$env:TEMP\kilobit-theme\wezterm\theme.lua" "$env:USERPROFILE\.config\wezterm\"
-Copy-Item "$env:TEMP\kilobit-theme\wezterm\scripts\*.lua" "$env:USERPROFILE\.config\wezterm\scripts\"
-Copy-Item "$env:TEMP\kilobit-theme\fastfetch\config.jsonc" "$env:USERPROFILE\.config\fastfetch\"
-Copy-Item "$env:TEMP\kilobit-theme\fastfetch\logo.png" "$env:USERPROFILE\.config\fastfetch\"
-Remove-Item -Recurse -Force "$env:TEMP\kilobit-theme"
-Write-Host "Done. Restart WezTerm."
-```
 
 ## Kilobit Color Scheme
 
@@ -75,9 +41,47 @@ Write-Host "Done. Restart WezTerm."
 | Magenta    | `#c792ea` |
 | Cyan       | `#89ddff` |
 
-## Theme Switcher
+## Installation
 
-Press `Ctrl+Shift+T` to open the theme picker. It opens an fzf pane on the right with live preview — themes apply as you scroll through them. Press Enter to confirm or Escape to cancel.
+### Dependencies
+
+```bash
+brew install fastfetch sketchybar yabai jq
+brew install --cask font-jetbrains-mono-nerd-font font-fira-code-nerd-font ghostty
+# sketchybar-app-font: https://github.com/kvndrsslr/sketchybar-app-font
+```
+
+### Setup
+
+```bash
+git clone https://github.com/lordknows13/kilobit-theme.git ~/kilobit-theme
+cd ~/kilobit-theme
+
+# Ghostty
+mkdir -p ~/.config/ghostty/themes
+cp ghostty/config ~/.config/ghostty/config
+cp ghostty/themes/material-dark-black ~/.config/ghostty/themes/
+
+# SketchyBar
+mkdir -p ~/.config/sketchybar/plugins
+cp sketchybar/sketchybarrc ~/.config/sketchybar/sketchybarrc
+cp sketchybar/icon_map.sh ~/.config/sketchybar/icon_map.sh
+cp sketchybar/plugins/*.sh ~/.config/sketchybar/plugins/
+chmod +x ~/.config/sketchybar/plugins/*.sh ~/.config/sketchybar/icon_map.sh
+
+# Yabai
+cp yabai/.yabairc ~/.yabairc
+chmod +x ~/.yabairc
+
+# Fastfetch
+mkdir -p ~/.config/fastfetch
+cp fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
+cp fastfetch/logo.png ~/.config/fastfetch/logo.png
+
+# Start services
+sketchybar --reload
+yabai --restart-service
+```
 
 ## License
 

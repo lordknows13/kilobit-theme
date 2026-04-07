@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+yabai -m config layout bsp
+
+yabai -m config mouse_modifier cmd
+yabai -m config mouse_action1 move
+yabai -m config mouse_action2 resize
+yabai -m config mouse_drop_action swap
+
+# reload sketchybar when system woke
+yabai -m signal --add event=system_woke action="sh -c 'sleep 1; /usr/local/bin/sketchybar --reload'"
+
+# dynamically calculate external bar height from sketchybar
+yabai -m config external_bar all:$(($(sketchybar --query bar | jq .height) + 0)):0
+
+yabai -m config top_padding    22
+yabai -m config bottom_padding 16
+yabai -m config left_padding   16
+yabai -m config right_padding  16
+yabai -m config window_gap     16
+
+yabai -m config window_shadow off
+
+# float system preferences and other non-tileable apps
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Karabiner" manage=off
+yabai -m rule --add app="^Archive Utility$" manage=off
+yabai -m rule --add app="^Activity Monitor$" manage=off
+yabai -m rule --add app="^Finder$" title="^(Copy|Connect|Move|Info|Pref)" manage=off
+yabai -m rule --add title=".*Launcher.*" manage=off
+
+echo "yabai configuration loaded.."

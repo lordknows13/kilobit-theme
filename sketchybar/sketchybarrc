@@ -1,0 +1,78 @@
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+sketchybar --bar position=top height=45 color=0x00000000 y_offset=8 corner_radius=0 margin=16 padding_left=0 padding_right=0
+
+default=(
+  padding_left=8
+  padding_right=8
+  icon.font="FiraCode Nerd Font Mono:Regular:20.0"
+  label.font="FiraCode Nerd Font Mono:Medium:14.0"
+  icon.color=0xffeff1f5
+  label.color=0xffeff1f5
+  icon.padding_left=4
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=4
+)
+sketchybar --default "${default[@]}"
+
+sketchybar --add item logo left \
+           --set logo update_freq=10 icon="" icon.padding_left=15 icon.padding_right=10 label.drawing=off icon.font.size=24 padding_left=0 padding_right=0
+
+# workspaces
+KEY_CODES=(18 19 20 21 23 22 26 28 25)
+for sid in {1..9}; do
+  space=(
+    space="$sid"
+    icon=""
+    label.drawing=off
+    script="$PLUGIN_DIR/space.sh"
+    click_script="osascript -e 'tell application \"System Events\" to key code ${KEY_CODES[$((sid-1))]} using control down'"
+    associated_display=active
+    padding_left=3
+    padding_right=3
+  )
+  sketchybar --add space space."$sid" left \
+             --set space."$sid" "${space[@]}"
+done
+
+sketchybar --add item front_app left \
+           --set front_app \
+           icon.font="sketchybar-app-font:Regular:16.0" \
+           icon.color=0xffeff1f5 \
+           label.drawing=off \
+           padding_left=6 \
+           padding_right=8 \
+           script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
+
+sketchybar --add item clock right \
+           --set clock update_freq=10 icon="󰥔" script="$PLUGIN_DIR/clock.sh" label.padding_right=15 icon.padding_left=10 icon.font.size=22 padding_left=0 padding_right=0
+
+sketchybar --add item date right \
+           --set date update_freq=10 icon="" script="$PLUGIN_DIR/date.sh" icon.font.size=22
+
+sketchybar --add item battery right \
+           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" icon.font.size=16 \
+           --subscribe battery system_woke power_source_change
+
+sketchybar --add item volume right \
+           --set volume script="$PLUGIN_DIR/volume.sh" \
+           --subscribe volume volume_change
+
+
+# Bracket: left section (logo + workspaces)
+sketchybar --add bracket left_section logo '/space\..*/' front_app \
+           --set left_section background.color=0xff000000 \
+                              background.corner_radius=10 \
+                              background.height=36 \
+                              background.drawing=on
+
+# Bracket: right section (clock, date, battery, volume)
+sketchybar --add bracket right_section clock date battery volume \
+           --set right_section background.color=0xff000000 \
+                               background.corner_radius=10 \
+                               background.height=36 \
+                               background.drawing=on
+
+sketchybar --update
